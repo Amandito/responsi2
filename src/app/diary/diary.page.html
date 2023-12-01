@@ -1,0 +1,141 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Daftar Diary</ion-title>
+    <ion-buttons slot="end">
+      <!-- Tombol Logout -->
+      <ion-button (click)="logout()">
+        Logout
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ng-container *ngIf="dataDiary.length > 0; else emptyState">
+    <ion-card *ngFor="let item of dataDiary">
+      <ion-item>
+        <ion-label>
+          {{item.judul}}
+          <p>{{item.deskripsi}}</p>
+        </ion-label>
+        <ion-button color="danger" slot="end" (click)="hapusDiary(item.id)">
+          Hapus
+        </ion-button>
+        <ion-button expand="block" (click)="open_modal_edit(true,item.id)">
+          Edit
+        </ion-button>
+      </ion-item>
+    </ion-card>
+  </ng-container>
+  <ng-template #emptyState>
+    <p class="ion-text-center ion-align-items-center">Data kosong</p>
+  </ng-template>
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="open_modal_tambah(true)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <!-- ini untuk modal tambah -->
+  <ion-modal [isOpen]="modal_tambah">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Batal</ion-button>
+          </ion-buttons>
+          <ion-title>Tambah Diary</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Judul Diary"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="judul"
+            placeholder="Masukkan Judul Diary"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Diary"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="deskripsi"
+            placeholder="Masukkan Diary"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-row>
+          <ion-col>
+            <ion-fab slot="fixed" vertical="bottom" horizontal="end"> </ion-fab>
+            <ion-button
+              type="button"
+              (click)="tambahDiary()"
+              color="primary"
+              shape="full"
+              expand="block"
+              >Tambah Diary
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- ini untuk modal edit -->
+  <ion-modal [isOpen]="modal_edit">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Batal</ion-button>
+          </ion-buttons>
+          <ion-title>Edit Diary</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Judul Diary"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="judul"
+            placeholder="Masukkan Judul Diary"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Diary"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="deskripsi"
+            placeholder="Masukkan Diary"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-input required [(ngModel)]="id" type="hidden"> </ion-input>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              type="button"
+              (click)="editDiary()"
+              color="primary"
+              shape="full"
+              expand="block"
+              >Edit Diary
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
